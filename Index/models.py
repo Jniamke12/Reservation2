@@ -32,8 +32,17 @@ class Reservation(models.Model):
     date = models.DateField()
     time = models.CharField(max_length=10)
     email = models.EmailField(max_length=100)
-    number = models.IntegerField(max_length=6)
-    tel = models.IntegerField(max_length=10)
+    number = models.IntegerField()
+    tel = models.CharField(max_length=10)
+
+
+    def __str__(self):
+        return self.name
+
+class Table(models.Model):
+    
+    nombre_de_place = models.IntegerField()
+    status = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
