@@ -128,6 +128,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_URL = 'static/'
 MEDIA_URL = 'media/'
 
+# settings.py
+# settings.py
+# Paramètres de base pour l'envoi des mails
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Utilise ton serveur SMTP
+EMAIL_PORT = 587  # Port pour TLS
+EMAIL_USE_TLS = True  # Utiliser TLS
+EMAIL_HOST_USER = 'angeniamke2002@gmail.com'  # Ton adresse email
+EMAIL_HOST_PASSWORD = 'josephniamke123'  # Ton mot de passe
+DEFAULT_FROM_EMAIL = '2josephniamke2002@gmail.com'  # L'adresse d'envoi par défaut
+ # Ton mot de passe
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

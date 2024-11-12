@@ -21,5 +21,5 @@ from . import views
 urlpatterns = [
     path('', views.Index, name='Index'),
     path('Reservation/', views.Reservation, name='Reservation'),
-        
+    
 ]
