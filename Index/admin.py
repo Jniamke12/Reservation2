@@ -6,7 +6,7 @@ import Index.models as models  # Importation correcte des modèles depuis Index
 def accepter_reservation(modeladmin, request, queryset):
     queryset.update(status='acceptée')
 
-
+import Index.models as models
 def refuser_reservation(modeladmin, request, queryset):
     queryset.update(status='refusée')
 
@@ -36,14 +36,8 @@ class ReservationAdmin(admin.ModelAdmin):
 
     list_display = ('id', 'name', 'date', 'time', 'email', 'number', 'tel')
     list_filter = ('date', 'id', 'name', 'time', 'email', 'number', 'tel')
-# Configuration de TableAdmin
-class TableAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'nombre_de_place', 'status')
-    list_filter = ('status', 'nombre_de_place')
     search_fields = ('name',)
 
-# Enregistrement des modèles avec leur admin
-def _register(model, admin_class):    admin.site.register(model, admin_class)
 
 # Fonction pour enregistrer un modèle
 def _register(model, admin_class):
@@ -55,4 +49,3 @@ def _register(model, admin_class):
 _register(models.Categories, CategoriesAdmin)
 _register(models.Menu, MenuAdmin)
 _register(models.Reservation, ReservationAdmin)
-_register(models.Table, TableAdmin)  # Enregistrement de Table
