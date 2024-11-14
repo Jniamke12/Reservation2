@@ -40,9 +40,10 @@ class Reservation(models.Model):
         return self.name
 
 class Table(models.Model):
-    
+    name = models.CharField(max_length=100, default="Table inconnue")  # Ajout d'une valeur par défaut
     nombre_de_place = models.IntegerField()
     status = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
+
