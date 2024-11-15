@@ -41,6 +41,7 @@ class Reservation(models.Model):
 
 class Table(models.Model):
     
+    name=models.CharField(max_length=20,default="")
     nombre_de_place = models.IntegerField()
     status = models.BooleanField(default=False)
 

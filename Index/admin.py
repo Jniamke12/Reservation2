@@ -38,6 +38,12 @@ class ReservationAdmin(admin.ModelAdmin):
     list_filter = ('date', 'id', 'name', 'time', 'email', 'number', 'tel')
     search_fields = ('name',)
 
+class TableAdmin(admin.ModelAdmin):
+
+    list_display = ('id','name','nombre_de_place', 'status',)
+    list_filter = ('nombre_de_place','name','id','status')
+    search_fields = ('name',)
+
 
 # Fonction pour enregistrer un modèle
 def _register(model, admin_class):
@@ -49,3 +55,4 @@ def _register(model, admin_class):
 _register(models.Categories, CategoriesAdmin)
 _register(models.Menu, MenuAdmin)
 _register(models.Reservation, ReservationAdmin)
+_register(models.Table, TableAdmin)

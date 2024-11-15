@@ -16,40 +16,48 @@ def Index (request):
     }
     return render(request, 'index.html', data)
 
-def Reservation (request):
+def Reservation(request):
 
-    # Récupérer le nombre de personnes depuis le formulaire
-    personne = int(request.POST.get('number'))
+    if request.method == 'POST':  # Vérifie que la méthode est POST
+        # Récupérer le nombre de personnes depuis le formulaire
+        personne = int(request.POST.get('number', 0))  # Valeur par défaut : 0
+        
+        # Rechercher les tables disponibles avec un nombre de places supérieur ou égal au nombre de personnes
+        tables_proches = models.Table.objects.filter(
+            status=False,  # Filtrer les tables disponibles (status=False)
+            nombre_de_place__gte=personne,  # Ajouter la condition pour le nombre de places supérieur ou égal au nombre de personnes
+            nombre_de_place__lte=personne+2
+        ).order_by('nombre_de_place')
 
-    # Rechercher les tables avec un nombre de places proche du nombre de personnes
-    tables_proches = models.Table.objects.filter(
-    status=False  # Filtrer les tables dont le `status` est `False`
-    ).annotate(
-    difference=Abs(F('nombre_de_place') - Value(personne, output_field=IntegerField()))
-    ).order_by('difference')
+        if tables_proches.exists():
+            # Récupérer les informations du formulaire
+            nom = request.POST.get('name')
+            telephone = request.POST.get('phone')
+            date = request.POST.get('date')
+            email = request.POST.get('email')
+            heure = request.POST.get('time')
 
+            # Créer et sauvegarder la réservation
+            reserver = models.Reservation(
+                name=nom,
+                date=date,
+                time=heure,
+                tel=telephone,
+                email=email,
+                number=personne,
+            )
+            reserver.save()
 
-    if request.method == 'POST' and tables_proches.exists() :
+            
 
-        nom = request.POST.get('name')
-        telephone = request.POST.get('phone')
-        date = request.POST.get('date')
-        email = request.POST.get('email')
-        personne = request.POST.get('number')
-        heure = request.POST.get('time')
-        reserver = models.Reservation(
-            name = nom,
-            date = date,
-            time = heure,
-            tel = telephone,
-            email = email,
-            number = personne,
-        )
+            # Rediriger vers une page de succès ou afficher un message
+            return render(request, 'index.html', {'name': nom})
+        else:
+            # Aucune table disponible
+            return render(request, 'index.html', {'error': "Aucune table disponible pour ce nombre de personnes."})
 
-        reserver.save()
-    else:
-        print(tables_proches)
+    # Si la méthode n'est pas POST, redirige vers le formulaire de réservation
+    return redirect('Index')
 
-        return redirect('Index')
 
     
